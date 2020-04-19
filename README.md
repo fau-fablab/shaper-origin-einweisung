@@ -3,7 +3,8 @@ Shape Origin Einweisung
 
 Einweisung des [FAU FabLab](https://fablab.fau.de) in den Shaper Origin.
 
-Die neueste Version der Einweisung aus [github](https://github.com/fau-fablab/shaper-origin-einweisung) ist als PDF unter https://brain.fablab.fau.de/build/shaper-origin-einweisung/einweisung_Shaper_Origin.pdf abrufbar.
+Die neueste Version der Einweisung aus [github](https://github.com/fau-fablab/shaper-origin-einweisung) ist
+als PDF unter https://brain.fablab.fau.de/build/shaper-origin-einweisung/einweisung_shaper_origin.pdf abrufbar.
 
 auschecken
 ----------

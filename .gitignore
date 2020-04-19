@@ -2,6 +2,7 @@
 output/
 revision.tex
 einweisung_*.pdf
+einweisungsliste_*.pdf
 
 ##file explorer files
 .directory

@@ -1,2 +1,2 @@
-TARGET=einweisung_Shaper_Origin Einweisungsliste_Shaper_Origin
+TARGET=einweisung_shaper_origin einweisungsliste_shaper_origin
 include fablab-document/Makefile.include

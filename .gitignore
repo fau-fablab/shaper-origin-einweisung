@@ -1,6 +1,7 @@
 ## Built file
 output/
 revision.tex
+version.tex
 einweisung_*.pdf
 einweisungsliste_*.pdf
 

@@ -1,0 +1,62 @@
+% =====================================================================
+%  Werkstück befestigen (Schnitt von vorn, schematisch):
+%  Opferplatte mit Zwingen auf der Werkbank, Werkstück und alle
+%  ausgeschnittenen Teile mit doppelseitigem Klebeband.
+%  Selbst gezeichnet.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+
+  % Werkbank (Platte bei y=15..20): \werkbank{x links}
+  \newcommand{\werkbank}[1]{%
+    \fill[black!45] (#1,15) rectangle ++(48,5);
+    \fill[black!45] (#1+7,11) rectangle ++(4,4) (#1+37,11) rectangle ++(4,4);}
+  % Zwinge an der Kante x, Richtung 1 = rechte Kante, -1 = linke Kante:
+  % \zwinge{x}{Richtung}
+  \newcommand{\zwinge}[2]{%
+    \fill[black!70] (#1-#2*1.5,25) rectangle (#1+#2*5,27);
+    \fill[black!70] (#1+#2*3.5,13) rectangle (#1+#2*5,27);
+    \fill[black!70] (#1-#2*1.5,13) rectangle (#1+#2*5,14.5);
+    \fill[black!50] (#1+#2*0.3,13) rectangle (#1-#2*0.7,10.5);
+    \fill[nokrot!80, draw=black!70, line width=0.3pt] (#1-#2*2,10.5) rectangle (#1+#2*1,8.5);}
+  % Werkstück (Platte mit ausgeschnittenem Teil in der Mitte)
+  \newcommand{\platte}[2]{%
+    \draw[werkstueck] (#1+7,#2) rectangle ++(12,6);
+    \draw[werkstueck] (#1+21,#2) rectangle ++(7,6);
+    \draw[werkstueck] (#1+30,#2) rectangle ++(12,6);}
+
+  % ---------------- 1 richtig --------------------------------------
+  \feld{0}{0}{54}{62}{1\quad Richtig}
+  \werkbank{3}
+  \draw[opferplatte] (5,20) rectangle (49,25);
+  \zwinge{6.5}{-1}  \zwinge{47.5}{1}
+  \fill[klebeband] (12,25) rectangle ++(8,0.8) (25,25) rectangle ++(5,0.8) (35,25) rectangle ++(8,0.8);
+  \platte{3}{25.8}
+  \draw[leitung] (27.5,26.2) -- (27.5,44) node[anchor=south, align=center] {auch das\\ausgeschnittene Teil\\ist festgeklebt};
+  \pic at (45,55) {ok};
+  \node[align=center] at (27,4.5) {Opferplatte mit Zwingen gespannt,\\alle Teile geklebt};
+
+  % ---------------- 2 Teil lose ------------------------------------
+  \feld{58}{0}{54}{62}{2\quad Teil nicht geklebt}
+  \werkbank{61}
+  \draw[opferplatte] (63,20) rectangle (107,25);
+  \zwinge{64.5}{-1}  \zwinge{105.5}{1}
+  \fill[klebeband] (70,25) rectangle ++(8,0.8) (93,25) rectangle ++(8,0.8);
+  \draw[werkstueck] (68,25.8) rectangle ++(12,6) (91,25.8) rectangle ++(12,6);
+  \draw[werkstueck, rotate around={25:(86,31)}] (82,28) rectangle ++(8,6);
+  \draw[vorschub, nokrot] (90,36) -- (98,44);
+  \pic at (103,55) {nok};
+  \node[align=center] at (85,4.5) {Das freie Teil wird vom Fräser\\erfasst und weggeschleudert};
+
+  % ---------------- 3 nicht gespannt -------------------------------
+  \feld{116}{0}{54}{62}{3\quad Nicht gespannt}
+  \werkbank{119}
+  \begin{scope}[shift={(4,0)}]
+    \draw[opferplatte] (122,20) rectangle (164,25);
+    \fill[klebeband] (126,25) rectangle ++(10,0.8) (141,25) rectangle ++(6,0.8) (151,25) rectangle ++(10,0.8);
+    \platte{119}{25.8}
+  \end{scope}
+  \draw[vorschub, nokrot] (140,38) -- (152,38);
+  \node[anchor=south, nokrot] at (146,39) {verrutscht};
+  \pic at (161,55) {nok};
+  \node[align=center] at (143,4.5) {Nur kleben reicht nicht: Ohne\\Zwingen rutscht alles weg};
+\end{tikzpicture}

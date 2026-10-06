@@ -1,0 +1,38 @@
+% =====================================================================
+%  Bildschirm beim Fräsen (schematisch). Der Kreis zeigt, wie weit der
+%  Origin den Fräser selbst verschieben kann. Selbst gezeichnet.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+
+  % Bildschirm mit Kamerabild und Fräsweg: \bildschirm{x}{y}
+  \newcommand{\bildschirm}[2]{%
+    \draw[griff, fill=black!80, rounded corners=2] (#1,#2) rectangle ++(66,36);
+    \fill[holz!80] (#1+3,#2+3) rectangle ++(60,30);
+    \begin{scope}
+      \clip (#1+3,#2+3) rectangle ++(60,30);
+      % bereits gefräst: durchgezogen, noch zu fräsen: gestrichelt
+      \draw[nut, line width=2.2pt, line cap=round] (#1+6,#2+12) -- (#1+28,#2+12);
+      \draw[entwurfslinie] (#1+28,#2+12) -- (#1+44,#2+12)
+        arc[start angle=-90, end angle=0, radius=10] -- (#1+54,#2+40);
+    \end{scope}}
+
+  % ---------------- 1 Linie im Kreis ------------------------------
+  \feld{0}{0}{82}{62}{1\quad Linie im Kreis: Origin fräst}
+  \bildschirm{8}{12}
+  \draw[white, line width=1.1pt] (34.5,26.5) circle (7);
+  \fill[white] (34.5,26.5) circle (0.5);
+  \fill[black!70] (36,24) circle (1.3);
+  \draw[vorschub, okgruen, line width=1pt] (40,30.5) -- (50,30.5);
+  \pic at (73,55) {ok};
+  \node[align=center] at (41,5.5) {Kreis grob entlang der Linie führen,\\den Rest gleicht der Origin selbst aus};
+
+  % ---------------- 2 Linie außerhalb -----------------------------
+  \feld{88}{0}{82}{62}{2\quad Linie verlassen: Fräser fährt hoch}
+  \bildschirm{96}{12}
+  \draw[nokrot, line width=1.1pt] (126,36) circle (7);
+  \fill[black!70] (126,36) circle (1.3);
+  \draw[vorschub, nokrot, line width=1pt] (138,31) -- (138,41);
+  \node[anchor=west, nokrot, font=\scriptsize\bfseries] at (139.5,36) {hoch};
+  \pic at (161,55) {nok};
+  \node[align=center] at (129,5.5) {Fräser zieht sich automatisch zurück.\\Zurück zur Linie, neu eintauchen};
+\end{tikzpicture}

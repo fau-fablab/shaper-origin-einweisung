@@ -1,0 +1,61 @@
+% =====================================================================
+%  Frästiefe: Z-Touch, mehrere Durchgänge, Durchfräsen mit Opferplatte
+%  (Schnitt von vorn, schematisch). Selbst gezeichnet.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+
+  % Origin im Schnitt, Grundplatte liegt bei y=#2 auf,
+  % Fräserspitze bei y=#3: \origin{Mitte x}{Auflage y}{Fräserspitze y}
+  \newcommand{\origin}[3]{%
+    \draw[gehaeuse, fill=black!8, rounded corners=1] (#1-23,#2) rectangle (#1+23,#2+3);
+    \draw[gehaeuse, rounded corners=2] (#1-19,#2+3) -- (#1-19,#2+20) -- (#1-8,#2+26)
+      -- (#1+19,#2+26) -- (#1+19,#2+3) -- (#1+9,#2+3) -- (#1+9,#2+17) -- (#1-9,#2+17)
+      -- (#1-9,#2+3) -- cycle;
+    \draw[griff, rounded corners=1.5] (#1-26,#2+9) rectangle (#1-19,#2+20);
+    \draw[griff, rounded corners=1.5] (#1+19,#2+9) rectangle (#1+26,#2+20);
+    % Spindel, Spannmutter, Fräser
+    \draw[gehaeuse, fill=black!20, rounded corners=1.5] (#1-6,#3+10) rectangle (#1+6,#3+34);
+    \draw[metall] (#1-3,#3+7) rectangle (#1+3,#3+10);
+    \draw[fraeser] (#1-1.5,#3) rectangle (#1+1.5,#3+7);}
+
+  % ---------------- 1 Z-Touch ---------------------------------------
+  \feld{0}{0}{54}{74}{1\quad Z-Touch}
+  \draw[werkstueck] (3,14) rectangle (51,22);
+  \origin{27}{22}{22}
+  \draw[nokrot, line width=0.9pt] (20,22) -- (34,22);
+  \node[anchor=west, nokrot] at (34,19.5) {0};
+  \node[align=center] at (27,7.5) {Fräser tastet die Oberfläche ab:\\Das ist die Tiefe 0. Nach jedem\\Fräserwechsel neu messen};
+
+  % ---------------- 2 mehrere Durchgänge ----------------------------
+  \feld{58}{0}{54}{74}{2\quad Mehrere Durchgänge}
+  \draw[werkstueck] (61,14) rectangle (109,30);
+  \fill[nut] (81,18) rectangle (89,30);
+  \foreach \y in {26,22}{\draw[holzrand, line width=0.5pt, dash pattern=on 0.8mm off 0.6mm] (81,\y) -- (89,\y);}
+  \draw[fraeser] (81,36) rectangle (89,45);
+  \draw[fraeser] (83,45) rectangle (87,54);
+  \draw[hilfslinie] (90,26) -- (95,26) (110,30) -- (95,30);
+  \draw[mass] (93,26) -- (93,30);
+  \node[anchor=west] at (95,28) {$\le \frac{1}{2}\,d$};
+  \draw[hilfslinie] (81,36) -- (81,33) (89,36) -- (89,33);
+  \draw[mass] (81,34) -- (89,34);
+  \node[anchor=west] at (90,34) {$d$};
+  \node[anchor=east, align=right] at (79.5,24) {1.\\2.\\3.};
+  \node[align=center] at (85,7.5) {Je Durchgang höchstens halber\\Fräserdurchmesser tief, dann\\Tiefe erhöhen und wiederholen};
+
+  % ---------------- 3 Durchfräsen -----------------------------------
+  \feld{116}{0}{54}{74}{3\quad Durchfräsen}
+  \draw[opferplatte] (119,14) rectangle (167,22);
+  \fill[klebeband] (122,22) rectangle (139,22.8) (147,22) rectangle (158,22.8);
+  \draw[werkstueck] (121,22.8) rectangle (140.5,30.8);
+  \draw[werkstueck] (145.5,22.8) rectangle (160,30.8);
+  \fill[nut] (140.5,21.3) rectangle (145.5,22);
+  \draw[fraeser] (141,21.3) rectangle (145,30.8);
+  \draw[fraeser] (142,30.8) rectangle (144,40);
+  \draw[hilfslinie] (146,21.3) -- (167,21.3) (161,30.8) -- (167,30.8);
+  \draw[mass] (164.5,21.3) -- (164.5,30.8);
+  \node[anchor=south, align=center] at (157,44) {Materialstärke\\+ 0,5\,mm};
+  \draw[leitung] (159,44) -- (164.5,27);
+  \node[anchor=west] at (119.5,17.5) {Opferplatte};
+  \draw[leitung] (128,22.4) -- (128,44) node[anchor=south, align=center] {doppelseitiges\\Klebeband};
+  \node[align=center] at (143,7.5) {Opferplatte unterlegen,\\beide Teile festkleben,\\nur knapp in die Platte fräsen};
+\end{tikzpicture}

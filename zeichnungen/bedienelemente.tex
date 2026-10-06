@@ -1,0 +1,63 @@
+% =====================================================================
+%  Shaper Origin von oben (schematisch, nicht maßstäblich).
+%  Du stehst unten an den Griffen, die Kamera blickt nach vorn (oben)
+%  auf das ShaperTape. Nummern wie in der Tabelle der Einweisung.
+%  Selbst gezeichnet, keine Vorlage aus der Herstelleranleitung.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+  \fill[feld, rounded corners=2mm] (0,0) rectangle (170,112);
+
+  % Werkstück mit ShaperTape vor der Maschine
+  \draw[werkstueck] (35,66) rectangle (135,108);
+  \shapertape{40}{98}{9}
+  \shapertape{40}{87}{9}
+  \shapertape{40}{76}{9}
+  % Blickfeld der Kamera
+  \fill[entwurf, opacity=0.12] (80,62) -- (52,104) -- (118,104) -- cycle;
+  \draw[entwurf, dashed, line width=0.5pt] (52,104) -- (80,62) -- (118,104);
+
+  % Grundplatte und Gehäuse
+  \draw[gehaeuse, fill=black!8, rounded corners=6] (42,12) rectangle (118,64);
+  \draw[gehaeuse, rounded corners=4] (50,18) rectangle (110,60);
+  % Griffe mit Tasten
+  \draw[griff, rounded corners=3] (24,22) rectangle (42,50);
+  \draw[griff, rounded corners=3] (118,22) rectangle (136,50);
+  \fill[tasteorange, draw=black!85] (33,46) circle (2.6);
+  \fill[tastegruen, draw=black!85] (127,46) circle (2.6);
+  % Touchscreen, zum Benutzer geneigt
+  \draw[gehaeuse, fill=black!70, rounded corners=1.5] (58,16) rectangle (102,36);
+  \fill[white, opacity=0.18] (60,18) rectangle (100,34);
+  \draw[entwurf, line width=0.6pt] (66,22) rectangle (84,30);
+  \draw[black!40, line width=0.5pt] (88,26) circle (3);
+  % Spindel mit Halterung, Schalter und Stellrad
+  \draw[metall, fill=black!22, rounded corners=1] (68,40) rectangle (92,58);
+  \draw[metall, fill=black!45] (92,46) rectangle (96,52);
+  \draw[gehaeuse, fill=black!18] (80,49) circle (7.5);
+  \draw[fill=tastegruen!70!black, draw=black!80] (80,49) circle (2.2);
+  \draw[fill=black!60, draw=black!85] (76,53.5) rectangle (78.5,55);
+  % Kamera vorn
+  \draw[griff, fill=black!80, rounded corners=0.8] (75,59) rectangle (85,64);
+  \fill[entwurf!60] (80,62) circle (1.3);
+
+  % Nummern mit Bezugslinien
+  \draw[leitung] (24,36) -- (17,36);
+  \node[marke] at (14,36) {1};
+  \draw[leitung] (136,36) -- (153,36);
+  \node[marke] at (156,36) {2};
+  \draw[leitung] (58,26) -- (48,8) -- (40,8);
+  \node[marke] at (37,8) {3};
+  \draw[leitung] (86,53) -- (100,72);
+  \node[marke, fill=white] at (100,72) {4};
+  \draw[leitung] (96,49) -- (153,56);
+  \node[marke] at (156,56) {5};
+  \draw[leitung] (75,61) -- (17,61);
+  \node[marke] at (14,61) {6};
+  \draw[leitung] (135,98) -- (153,98);
+  \node[marke] at (156,98) {7};
+  \draw[leitung] (52,104) -- (17,104);
+  \node[marke] at (14,104) {8};
+
+  % Standort des Benutzers
+  \draw[vorschub, black!60, line width=0.9pt] (80,3) -- (80,10);
+  \node[anchor=west, black!70] at (82,5) {du stehst hier};
+\end{tikzpicture}

@@ -1,251 +1,430 @@
+% !TeX spellcheck = de_DE_frami
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% COPYRIGHT: (C) 2020-2026 FAU FabLab and others
+% CC-BY-SA 3.0
+% Text in eigenen Worten, KEINE Passagen oder Abbildungen aus der
+% Anleitung von Shaper Tools oder Festool übernehmen (siehe README,
+% Abschnitt Lizenz). Die Zeichnungen in zeichnungen/ sind selbst mit
+% TikZ erstellt.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\basedir}{fablab-document}
 \documentclass{\basedir/fablab-document}
 
-\usepackage{minitoc} % Inhaltsübersicht je Section
-% \usepackage{fancybox} %ovale Boxen für Knöpfe - nicht mehr benötigt
-\usepackage{amssymb} % Symbole für Knöpfe
-% \usepackage{subfigure,caption}
+\usepackage{amssymb}
 \usepackage{eurosym}
+\usepackage{textcomp}
 \usepackage{tabularx} % Tabellen mit bestimmtem Breitenverhältnis der Spalten
-\usepackage{wrapfig} % Textumlauf um Bilder
-\usepackage{todonotes}
-\usepackage{framed}
-\usepackage{xargs}
-\usepackage{framed}
-\renewenvironmentx{leftbar}[3][2=0.5pt, 3=5pt]{\def\FrameCommand{\vrule width #2 \hspace{#3}}\MakeFramed {\advance\hsize-\width \FrameRestore}{\tiny#1\\}} {\endMakeFramed}
+\usepackage{caption}
+\usepackage{qrcode}
+\usepackage{fablab-document/fablab-ba} % Betriebsanweisung
+\input{zeichnungen/stil} % Farben und Stile der Zeichnungen
 
 \renewcommand{\texteuro}{\euro}
+% Nummer eines Bedienelements wie in der Übersicht, z.B. \teil{3}
+\newcommand{\teil}[1]{\tikz[baseline=(n.base)]\node[marke, minimum size=3.8mm, font=\tiny\bfseries](n){#1};}
+% Taste am Griff mit Farbfeld, z.B. \taste{tastegruen}{grüne Taste}
+\newcommand{\taste}[2]{\tikz[baseline=-0.6ex]\draw[fill=#1, draw=black!60] (0,0) circle (1.1mm);~#2}
 
-\renewcommand{\todo}[1]{\textbf{\color{red}{TODO: #1}}}
-
-\linespread{1.2}
-
-\date{April 2020}
-\author{FAU FabLab}
+\date{\today}
+% Versionsnummer: version.tex wird von der GitHub Action erzeugt,
+% lokal steht stattdessen "Entwurf" mit Datum in der Fußzeile.
+\InputIfFileExists{version}{}{\newcommand{\Version}{Entwurf \today}}
+\fancyfoot[R]{Version \Version}
+\author{kontakt@fablab.fau.de}
 \title{Einweisung Shaper Origin}
 
 \begin{document}
- % Hinweise an Package minitoc, doch bitte irgendwas zu generieren - wird für späteres \secttoc benötigt
-\dosecttoc
-\faketableofcontents
-\mtcsettitle{secttoc}{Arbeitsschritte}
-\mtcsettitlefont{secttoc}{\large \sffamily \bfseries}
-\mtcsetfont{secttoc}{subsection}{\sffamily}
-% \mtcset
-% hier geht das eigentliche Dokument los
 
-%\color{red}
-%\hrule
-%\begin{center}
-%\large{Achtung! Einweisung ist noch in Arbeit!}
-%\vspace{0.1cm}
-%\end{center}
-%\hrule
-%\color{black}
+	\maketitle
+	\begin{center}
+		Für die handgeführte CNC-Fräse \textbf{Shaper Origin}\\[1mm]
+		{\small Version \Version}
+	\end{center}
 
+	\textbf{Nur eingewiesene Benutzer dürfen den Origin selbstständig benutzen.}
+	Wenn du noch nicht eingewiesen bist, frage einen Betreuer. Nach der Einweisung und Unterschrift darfst du den Origin selbstständig verwenden. Beim ersten eigenen Projekt sollte trotzdem jemand dabei sein, der schon Erfahrung mit dem Origin hat.
 
+	\section{Regeln und Sicherheit}
 
-\section{Technische Daten}
-\begin{description}
-    \item[Hersteller] Shapertools
-    \item[Produktname] Origin
-    %\item[Leistung] $-----\,\mathrm{Watt}$
-    \item[Drehzahlbereich] 10.000 (Stufe 1) - 26.000 (Stufe 6)$\,\mathrm{min}^{-1}$
-    %\item[Fräserdurchmesser] max. $-----\,\mathrm{mm}$
-    \item[Fräserschaftdurchmesser] Festool-Spannzangen: Standard: 8mm
-\end{description}
+	\begin{itemize}
+		\item Die Opferplatte ist immer mit \textbf{Zwingen gespannt}, das Werkstück darauf mit doppelseitigem Klebeband befestigt. Auch \textbf{jedes Teil, das ausgeschnitten wird}, muss festgeklebt sein. Werkstücke nie mit der Hand halten, von anderen halten lassen oder direkt auf die Werkbank kleben.
+		\item Den Origin immer mit \textbf{beiden Händen} an den Griffen führen.
+		\item Immer mit angeschlossener Absaugung fräsen.
+		\item Gehörschutz und Schutzbrille tragen, bei Hartholz zusätzlich eine Staubmaske. Beim Fräsen \textbf{keine Handschuhe}.
+		\item Fräser nur wechseln, wenn die Spindel \textbf{vom Origin abgesteckt} ist. Fräser mit dem Schlüssel fest anziehen und danach immer Z-Touch ausführen.
+		\item Keine stumpfen, rissigen, verbogenen oder anders beschädigten Fräser verwenden.
+		\item Je Durchgang höchstens \textbf{halber Fräserdurchmesser} tief fräsen. Zu tief oder zu langsam gefräst glüht der Fräser aus, Holz kann zu brennen beginnen.
+		\item Netzkabel und Saugschlauch aus dem Fräsbereich fernhalten.
+		\item Vor dem Abheben: Fräser hochfahren, Spindel ausschalten und warten, bis der Fräser steht.
+		\item Im Arbeitsbereich dürfen sich keine Unbeteiligten aufhalten.
+		\item Schäden am Origin sofort melden: \texttt{fablab-aktive@fablab.fau.de}.
+	\end{itemize}
 
+	\BAfalls{betriebsanweisung/ba_shaper_origin}{Zusätzlich gilt die \textbf{Betriebsanweisung} auf der nächsten Seite (Abschnitt~\ref{sec:betriebsanweisung}). Sie hängt beim Origin aus und ist Bestandteil dieser Einweisung.}
 
-\section[Allgemeine Sicherheitshinweise]{Allgemeine Sicherheitshinweise}
-\begin{itemize}
-    \item Werkstück immer gut festspannen oder auf festgespannter Unterlage
-        mit doppelseitigem Tape festkleben, nie in der Hand oder von Dritten
-        halten lassen oder auf dem Tisch festkleben
-    \item Maschine beim Fräsen stets an beiden Griffen halten und führen
-    \item Die Maschine stellt sicher, dass immer im Gegenlauf gefräst wird
-    \item Der Origin taucht erst ein, wenn die Spindel läuft
-    \item Vor Werkzeugwechsel Spindel vom Origin trennen -- Stecker ziehen
-    \item Werkzeug fest einspannen -- dazu Schlüssel aus der Maschinenkiste oder
-        19mm Maulschlüssel verwenden
-    \item Keine defekten, rissigen, verbogenen oder stumpfen Werkzeuge verwenden
-    \item Unbedingt mit aktivem Staubsauger fräsen
-    \item Netzkabel aus dem Eingriffsbereich des Fräsers halten
-    \item Nach dem Fräsen Maschine reinigen und aussaugen. Zum Abblasen mit Druckluft
-        die Maschine aus dem Fenster halten
-    \item Im Arbeitsbereich dürfen sich keine Unbeteiligten befinden
-    \item Maximale Frästiefe je Fräsgang bei Holz: 1 x Fräser-\o\ -- Brandgefahr!
-    \item Ausreichend Vorschub bzw.\ nicht zu hohe Drehzahl verwenden, da sonst
-        der Fräser ausglüht.
-\end{itemize}
+	\newpage
 
+	% Betriebsanweisung als ganze Seite im Format des Aushangs
+	\BAseite[sec:betriebsanweisung]{betriebsanweisung/ba_shaper_origin}
 
-\section{Persönliche Schutzausrüstung}
-\begin{itemize}
-    \item Gehörschutz -- hängt an der Fräse, links neben der Werkbank
-    \item Schutzbrille -- hängen hinter der Werkbank und hinter dem
-        Chemiearbeitsbereich an der Wand
-    \item Staubmaske bei stauberzeugenden Arbeiten (besonders
-        Hartholz) -- liegen in der Schutzausrüstungsschublade W9
-    \item Fingerschutz um den unteren Teil der Spindel
-    \item Bewusstes Wahrnehmen des nächsten Not-Aus-Knopfes
-    \item Lange Haare müssen sicher zurückgebunden sein
-    \item Pulloverkordeln müssen in den Pullover gesteckt werden
-    \item Geschlossene Schuhe tragen
-\end{itemize}
+	\renewcommand{\contentsname}{Inhaltsverzeichnis / Arbeitsablauf}
+	\setcounter{tocdepth}{2}
+	\tableofcontents
+	\newpage
 
-%\begin{figure}[h!]
-%    \centering
-%    \includegraphics[width=0.8\textwidth]{bilder/shaper_front}
-%    \caption{Shaper Ansicht vorne}
-%    \label{fig:sketch}
-%\end{figure}
+	\section{Der Shaper Origin}
 
-%\begin{figure}[h!]
-%    \centering
-%    \includegraphics[width=0.8\textwidth]{bilder/shaper_side}
-%    \caption{Shaper Ansicht Seite}
-%    \label{fig:sketch2}
-%\end{figure}
+	\subsection{Technische Daten}
 
-\section{Vor der ersten Benutzung}
-Shaper stellt die dem Origin beiliegende Kurzstartanleitung zur Verfügung.
-Diese ist durchzulesen! Darin wird auch das Kleben der Tapestreifen erklärt.
-Ebenfalls sollten unter folgendem Link die Videos angeschaut werden:
-\url{www.shapertools.com/start} Hier werden die Grundlagen erklärt.
-Ergänzend sollten bereits eingewiesene und erfahrene Personen bei der ersten
-Nutzung anwesend sein und diese nochmals erklären und überprüfen.
-Einen Überblick dieser findest du am Ende dieser Einweisung.
+	\begin{center}
+		\begin{tabular}{r|l}
+			Hersteller & Shaper Tools \\
+			Produktname & Origin, Spindel SM1 \\
+			Leistung der Spindel & $720\,\mathrm{Watt}$ \\
+			Drehzahlbereich & $10.000 - 26.000\,\mathrm{min}^{-1}$ (Stellrad Stufe 1 bis 6) \\
+			Fräserschaft & $8\,\mathrm{mm}$ (Spannzange eingesetzt) \\
+			Eintauchtiefe & max.\ $43\,\mathrm{mm}$ \\
+			Gewicht & ca.\ $6{,}8\,\mathrm{kg}$ \\
+		\end{tabular}
+	\end{center}
 
-\section{Bestimmungsgemäße Verwendung}
-Der Shaper Origin ist zur Bearbeitung von Kanten, zum Versäubern und auch
-zur kreativen Gestaltung (z.\,B.\ Einfräsen von Schrift oder Löchern in
-Plattenmaterial) geeignet. Es ist wichtig, die folgenden Anweisungen genau zu
-beachten, damit der Origin nicht zu Gesundheitsschäden führt oder
-beschädigt wird.\\
-Es dürfen mit der Maschine Holz, Kunststoff und (Aluminium) bearbeitet
-werden, dabei immer auf die richtige Fräserauswahl, Spindeleinstellung,
-Tiefeneinstellung und Vorschub achten. Unter
-\url{https://support.shapertools.com/hc/en-us/categories/115000254454-Using-Origin}
-gibt es Werte zur Orientierung. Bei der Verwendung der Maschine
-muss der Festool-Staubsauger verwendet werden, da sonst sehr viel
-Staub und Dreck entsteht. Dabei ist zu beachten, dass der Origin entweder
-an einer Steckdose des Festool-Saugers angeschlossen wird und der Sauger
-selbst auf \enquote{AUTO} sowie voller Saugleistung steht oder der
-Staubsauger durchgängig an ist. Bei Holz kann sich der Einlass der Absaugung
-an dem Origin durch Holzsplitter zusetzen. Bei geringem Absaugeffekt ist
-die Arbeit zu unterbrechen und die Problemstelle zu finden.\\
-\textbf{WICHTIG: Der Shaper darf ausschließlich von eingewiesenen Personen verwendet werden.}
+	\subsection{So funktioniert der Origin}
 
-\subsection{Arbeiten während Openlabs}
-Ob die Maschine während Openlabs genutzt werden kann, entscheiden die anwesenden
-Betreuer. Dies geht nur, wenn wenige Personen anwesend sind, alle
-entsprechenden Gehörschutz tragen und es keine Personen stört.
-Während der Vorlesungszeit / Klausurenzeit ist darauf zu achten,
-dass die Labtüren geschlossen sind.
+	Der Origin ist eine Oberfräse mit Kamera, Bildschirm und Motoren, die den Fräser in der Maschine verschieben können. Er arbeitet so:
+	\begin{enumerate}
+		\item Auf dem Werkstück klebt \textbf{ShaperTape}, ein Klebeband mit schwarz-weißen Mustern (\enquote{Dominos}). Die Kamera an der Vorderseite erkennt daran jederzeit, wo sich der Origin befindet.
+		\item Am Bildschirm wird ein \textbf{Entwurf} (eine Zeichnung) auf das Werkstück gelegt.
+		\item Du schiebst den Origin \textbf{grob} entlang der Linie. Die Motoren verschieben den Fräser innerhalb eines kleinen Bereichs so, dass er genau auf dem Fräsweg bleibt.
+		\item Kommt der Fräsweg aus diesem Bereich heraus, fährt der Fräser automatisch hoch.
+	\end{enumerate}
+	Der Origin denkt also mit, aber die Kräfte des Fräsers hältst weiterhin du mit beiden Händen. Alles, was für eine Oberfräse gilt, gilt deshalb auch für den Origin.
 
-\section{Nach der Benutzung}
-\begin{itemize}
-\item Die Maschine ist mit Druckluft und Staubsauger zu reinigen
-\item Nach dem Fräsen von Holz bei Bedarf den Fräser mit Harzentferner reinigen
-\end{itemize}
+	\subsection{Anleitung und bestimmungsgemäße Verwendung}
 
-\section{Einstellungen}
-\subsection{Funktionen der Maschine}
-\begin{itemize}
-    \item Konstante Drehzahl: Die Motordrehzahl wird elektronisch konstant gehalten.
-        Dadurch wird auch bei Belastung eine gleichbleibende Schnittgeschwindigkeit erreicht.
-    \item Drehzahlregelung: Die Drehzahl lässt sich mit dem Stellrad an der Spindel
-        stufenlos einstellen. Dadurch kann die Schnittgeschwindigkeit der jeweiligen
-        Oberfläche optimal angepasst werden.
-    \item Temperatursicherung: Bei zu hoher Motortemperatur werden Stromzufuhr
-        und Drehzahl reduziert. Die Maschine läuft nur noch mit verringerter
-        Leistung, um eine rasche Abkühlung durch die Motorlüftung zu ermöglichen.
-    \item Strombegrenzung: Die Strombegrenzung verhindert bei extremer Überlastung
-        eine zu hohe Stromaufnahme. Dies kann zu einer Verringerung der Motordrehzahl
-        führen. Nach Entlastung läuft der Motor sofort wieder an.
-    \item Die Software des Origin verhindert das Verlassen des Fräspfades.
-    \item Die Software gibt die Fräsrichtung vor, es gilt den Anweisungen der Software Folge zu leisten.
-    \item Die Maschine führt den Fräser selbstständig auf der Linie. Um ein
-        gutes Ergebnis zu erzielen, kann der Auto-Modus genutzt werden, in dem ein
-        gleichbleibender Vorschub gewährleistet wird.
-\end{itemize}
+	Diese Einweisung fasst die Regeln des FabLabs zusammen und erklärt die Bedienung in eigenen Worten. Sie ersetzt nicht die Anleitung des Herstellers. Die \textbf{Kurzanleitung} liegt in der Maschinenkiste und ist vor der ersten Benutzung zu lesen. Ausführliche Anleitungen und Videos gibt es online im Hilfebereich von Shaper Tools:
 
-\subsubsection{Fräser wechseln}
-siehe beiliegende Schnellstart-Anleitung.
+	\begin{center}
+		\begin{tabular}{cc}
+			\qrcode[height=2.2cm]{https://support.shapertools.com} &
+			\qrcode[height=2.2cm]{https://assets.shapertools.com/manual/Shaper_Origin_Product_Manual.pdf} \\[1mm]
+			\href{https://support.shapertools.com}{Hilfebereich (Videos, Anleitungen)} &
+			\href{https://assets.shapertools.com/manual/Shaper_Origin_Product_Manual.pdf}{Produkthandbuch (PDF)}
+		\end{tabular}
+	\end{center}
 
-\subsection{Frästiefe einstellen}
-Der Shaper verfügt über das Menü Fräserwechsel, in dem nach einem Durchmesser-
-oder Typwechsel die automatische Neukalibrierung abgefragt wird. Wichtig dabei
-ist, während des Vorgangs den Origin am besten nicht anzufassen.
+	Mit dem Origin werden Konturen ausgeschnitten, Ausschnitte, Taschen, Nuten und Gravuren gefräst, z.\,B.\ Schriftzüge oder Löcher in Plattenmaterial, Verbindungen für Möbel oder Formen nach eigener Zeichnung. Bearbeitet werden Holz, Holzwerkstoffe und Kunststoffe, mit Freigabe auch Aluminium und andere Nichteisenmetalle (Abschnitt~\ref{sec:aluminium}).
 
-\subsection{Drehzahl wählen}
-Über das Stellrad an der Spindel wird die Drehzahl gewählt, diese hängt vom
-Material des Werkstücks und dem Fräser ab. Siehe Abbildung~\ref{fig:drehzahl}
-für Herstellerempfehlungen für die Oberfräse von Festool. Diese dürften
--- nicht validiert! -- auch für den Origin passend sein.
-\begin{figure}[h!]
-    \centering
-    \includegraphics{img/drehzahltabelle.pdf}
-    \caption{Drehzahltabelle}
-    \label{fig:drehzahl}
-\end{figure}
+	\subsection{Bedienelemente}
+	\label{sec:bedienelemente}
 
-\section{Arbeiten mit der Maschine}
-Beim Arbeiten mit der Maschine ist das Werkstück stets festzuspannen
-und gegen Verrutschen zu sichern. Die Maschine muss mit beiden Händen gehalten
-werden. Bei Arbeiten, die gefährliche Stäube erzeugen, ist der Staubsauger
-auf maximale Leistung einzustellen. Hierzu zählt auch Hartholz (vor allem
-Buche und Eiche sind nachweislich krebserregend, recht unabhängig von der Expositionsdauer)!
+	Die Nummern werden in der ganzen Einweisung verwendet, z.\,B.\ Spindel~\teil{4}.
 
-Tipps zum Festspannen:
-\begin{itemize}
-    \item zu fräsende Objekte gut auf einer festgespannten Grundplatte mit
-        doppelseitigem Tape festkleben. Wichtig: Alle Teile, die ausgeschnitten werden
-        sollen, müssen ebenfalls mit Tape verklebt sein, da sie andernfalls am
-        Ende verrutschen und dadurch eine Gefahr darstellen
-    \item Fräsertiefe beachten.
-    \item Shapertape auf einer der vorgefertigten Platten nutzen oder eigene
-        Platte erstellen. Diese dann oberflächenschlüssig vor das Werkstück
-        befestigen. Diese müssen gegen Verrutschen zum Werkstück gesichert
-        werden, da andernfalls das Werkstück kaputt geht!
-\end{itemize}
+	\begin{center}
+		\input{zeichnungen/bedienelemente}\\[1mm]
+		{\footnotesize Schematische Draufsicht, nicht maßstäblich.}
+	\end{center}
 
-Tipps für gute Ergebnisse bei Holz:
-\begin{itemize}
-    \item Rechtwinklig zur Faserstruktur Vorschub leisten. Dies verhindert
-        das Splittern des Holzes entlang der Maserung.
-    \item Für den Außengebrauch steht ein Festool-Arbeitstisch zum
-        Ausklappen bereit. Wende dich dafür an einen Betreuer.
-    \item Richtige Spindeldrehzahl wählen.
-    \item Wenn möglich Origin in der gleichen Richtung beim Fräsen
-        halten, in der gescannt wurde.
-\end{itemize}
+	\begin{center}
+		\small
+		\renewcommand{\arraystretch}{1.25}
+		\renewcommand{\tabularxcolumn}[1]{m{#1}}
+		\begin{tabularx}{\textwidth}{|c|>{\raggedright\arraybackslash}m{40mm}|X|}
+			\hline
+			& \textbf{Bedienelement} & \textbf{Bedienung} \\ \hline
+			\teil{1} & Linker Griff mit \taste{tasteorange}{oranger Taste} & Linke Hand. Taste drücken: Der Fräser fährt sofort aus dem Material hoch. Damit unterbrichst du jeden Fräsvorgang. \\ \hline
+			\teil{2} & Rechter Griff mit \taste{tastegruen}{grüner Taste} & Rechte Hand. Taste drücken: Der Fräser taucht auf die eingestellte Tiefe ein, aber nur wenn die Spindel läuft. In Menüs bestätigt die Taste. \\ \hline
+			\teil{3} & Touchscreen & Scannen, Entwurf wählen und platzieren, Schnittart, Tiefe und Fräser einstellen, beim Fräsen den Fräsweg verfolgen. \\ \hline
+			\teil{4} & Spindel mit Ein-/Ausschalter und Stellrad & Die eigentliche Fräse. Oben wird sie ein- und ausgeschaltet und die Drehzahl gewählt (Abschnitt~\ref{sec:drehzahl}). Ihr Netzkabel steckt im Origin. \\ \hline
+			\teil{5} & Spindelhalterung mit Klemmschraube & Hält die Spindel. Zum Fräserwechsel mit dem T-Griff-Schlüssel (Innensechskant 4\,mm) lösen (Abschnitt~\ref{sec:fraeserwechsel}). \\ \hline
+			\teil{6} & Kamera & Blickt nach vorn auf das ShaperTape. Sauber halten, nicht abdecken, nicht mit Druckluft anblasen. \\ \hline
+			\teil{7} & ShaperTape & Wird in Streifen vor und auf das Werkstück geklebt (Abschnitt~\ref{sec:shapertape}). \\ \hline
+			\teil{8} & Blickfeld der Kamera & Darin müssen immer mehrere Streifen ShaperTape zu sehen sein. \\ \hline
+		\end{tabularx}
+	\end{center}
 
-Weiteres ist in der Kurzanleitung.
+	Außerdem hat der Origin einen Anschluss für den Saugschlauch und ein eigenes Netzkabel, das in die Steckdose des Saugers gesteckt wird (Abschnitt~\ref{sec:absaugung}).
 
-\subsection{Aluminium, Kupfer, ... (nicht eisenhaltige Metalle)}
-Das Bearbeiten von nicht eisenhaltigen Metallen ist nur fortgeschrittenen
-Benutzern erlaubt. Hierbei muss beim ersten Fräsen ein Betreuer anwesend
-sein, der ebenfalls mit nicht eisenhaltigen Metallen am Origin bereits gearbeitet hat.
+	\section{Vorbereitung}
 
-%\newpage
-\section{Quellen und Rechte}
-\label{quellen}
-Alle Rechte an Grafiken, Tabellen und Textabschnitten, welche aus der Shaper
-Originalbetriebsanleitung übernommen wurden, liegen bei Shapertools. Die
-\enquote{Originalbetriebsanleitung} liegt der Maschine bei und ist online auf
-\url{https://assets.shapertools.com/manual/Shaper_Origin_Product_Manual.pdf}
-zu finden. Shapertools hat dieses Dokument weder gelesen noch auf Vollständigkeit
-oder Richtigkeit geprüft und übernimmt keine Haftung.
-Gleiches gilt für die Tabelle aus der Festtool Oberfräseneinweisung.
-%\begin{itemize}
-%\item Festool \glqq Originalbetriebsanleitung\grqq TS 55 REBQ unter
-%\url{http://www.etracker.de/lnkcnt.php?et=6hsNGE&url=https\%3a\%2f\%2fassets.festool.com\%2fmedia\%2f706758_002_ts55rebq.zip&lnkname=Bedienungsanleitung+TS+55}
-%\end{itemize}
+	\subsection{Checkliste vor dem Fräsen}
+	Vor \textbf{jedem} Einsatz durchgehen:
+	\begin{itemize}
+		\item Origin, Spindel, Kabel und Saugschlauch unbeschädigt? Kamera sauber?
+		\item Fräser scharf, unbeschädigt, für das Material geeignet und fest eingespannt? Danach Z-Touch gemacht?
+		\item Schutzausrüstung angelegt (siehe unten)?
+		\item Absaugung angeschlossen, Sauger auf \enquote{AUTO} und volle Saugleistung?
+		\item Opferplatte mit Zwingen gespannt? Werkstück und alle Teile, die ausgeschnitten werden, festgeklebt? Zwingen außerhalb des Wegs der Maschine?
+		\item Keine Nägel, Schrauben oder Klammern im Fräsbereich?
+		\item Genug ShaperTape geklebt und gescannt?
+		\item Netzkabel und Schlauch liegen so, dass der Fräser sie nicht erreichen kann?
+		\item Arbeitsbereich frei, keine Unbeteiligten in der Nähe?
+	\end{itemize}
 
-Dieses Dokument stammt aus fau-fablab/shaper-origin-einweisung@\Revision{}.
+	\subsection{Schutzausrüstung}
+	\begin{itemize}
+		\item Gehörschutz: immer. Hängt an der Fräse links neben der Werkbank.
+		\item Schutzbrille: immer. Hängt hinter der Werkbank und hinter dem Chemiearbeitsbereich an der Wand.
+		\item Staubmaske bei stauberzeugenden Arbeiten, insbesondere bei Hartholz. Liegt in Schublade W9.
+		\item Beim Fräsen \textbf{keine Handschuhe} tragen: Der rotierende Fräser kann sie erfassen und die Hand mitziehen. Schutzhandschuhe nur beim Fräserwechsel mit abgesteckter Spindel.
+		\item Eng anliegende Kleidung ohne Schals oder Kordeln (Kordeln in den Pullover stecken), keinen Schmuck. Lange Haare zusammenbinden.
+		\item Geschlossene Schuhe tragen.
+		\item Wissen, wo der nächste Not-Aus-Schalter ist.
+	\end{itemize}
 
-\todo{Klären, ob und wo CC-Lizenz gesetzt werden kann, dann ccLicense-Block einbinden.}
-%\ccLicense{shaper-origin-einweisung}{Einweisung Shaper Origin}
+	\subsection{Material}
+	\begin{itemize}
+		\item Zugelassen: Holz und Holzwerkstoffe (auch beschichtet) und Kunststoffe. Aluminium und andere Nichteisenmetalle nur wie in Abschnitt~\ref{sec:aluminium} beschrieben.
+		\item Nicht zugelassen: Stahl und andere eisenhaltige Metalle, Stein, Glas sowie Material mit Nägeln, Schrauben oder Klammern im Fräsbereich.
+		\item Das Werkstück muss eben sein und flach aufliegen, damit der Origin nicht kippt.
+		\item Hartholzstaub ist gesundheitsschädlich. Vor allem Buchen- und Eichenholzstaub ist krebserregend. Bei Hartholz Staubmaske tragen, Sauger auf volle Leistung und, wenn möglich, im Freien fräsen.
+	\end{itemize}
+
+	\subsection{Absaugung und Strom}
+	\label{sec:absaugung}
+	Immer mit dem Festool-Sauger fräsen, sonst entsteht sehr viel Staub. Den Saugschlauch am Origin aufstecken. Das Netzkabel des Origin in die Steckdose am Sauger stecken und den Sauger auf \enquote{AUTO} stellen: Er startet dann, sobald die Spindel läuft. Alternativ den Sauger durchgehend laufen lassen. Die Saugleistung auf das Maximum stellen.
+
+	Holzsplitter können den Absauganschluss verstopfen. Lässt die Absaugung nach, die Arbeit unterbrechen, die Spindel ausschalten und die verstopfte Stelle suchen.
+
+	\subsection{Werkstück befestigen}
+	\label{sec:spannen}
+	Der Origin hat keinen Maschinentisch. Deshalb wird so aufgebaut:
+	\begin{enumerate}
+		\item Eine \textbf{Opferplatte} (z.\,B.\ MDF) mit Zwingen auf der Werkbank spannen. In sie darf beim Durchfräsen etwas hineingefräst werden.
+		\item Das Werkstück mit \textbf{doppelseitigem Klebeband} auf die Opferplatte kleben. Das Klebeband so verteilen, dass auch jedes Teil, das ausgeschnitten wird, auf mindestens einem Streifen liegt. Lose Teile werden am Ende des Schnitts vom Fräser erfasst und weggeschleudert.
+		\item Zwingen so setzen, dass weder der Origin noch der Saugschlauch dagegenstoßen.
+	\end{enumerate}
+
+	\begin{center}
+		\input{zeichnungen/spannen}
+	\end{center}
+
+	Kleine Werkstücke, die sich so nicht sicher befestigen lassen, werden nicht mit dem Origin gefräst. Für Arbeiten im Freien gibt es einen klappbaren Festool-Arbeitstisch, frag einen Betreuer.
+
+	\subsection{ShaperTape kleben und scannen}
+	\label{sec:shapertape}
+	Die Kamera~\teil{6} braucht immer genug ShaperTape im Blickfeld~\teil{8}. So wird geklebt:
+	\begin{itemize}
+		\item Streifen \textbf{parallel} und mit \textbf{5 bis 8\,cm Abstand} zueinander kleben, und zwar vor und auf dem Bereich, der gefräst werden soll. Die Kamera schaut nach vorn: Das Tape muss dort liegen, wohin die Maschine beim Fräsen \enquote{blickt}.
+		\item Im Blickfeld sollen immer mindestens \textbf{drei Streifen} zu sehen sein.
+		\item Streifen nicht länger als etwa 90\,cm, nicht schräg, nicht überlappend und nicht über Kanten kleben. Das Tape muss flach auf dem Werkstück oder einer gleich hohen Fläche daneben kleben.
+		\item Nicht auf das Tape fräsen. Wo gefräst wird, kein Tape kleben, der Fräser würde es zerstören.
+	\end{itemize}
+
+	\begin{center}
+		\input{zeichnungen/shapertape}
+	\end{center}
+
+	\textbf{Scannen:} Am Bildschirm \textit{Scan} wählen und den Origin langsam über alle Streifen bewegen, bis sie am Bildschirm vollständig angezeigt werden. Danach dürfen weder Tape noch Werkstück verrutschen. Wird nachträglich Tape ergänzt, den Bereich nachscannen. Wurde das Werkstück bewegt, neu scannen und den Entwurf neu platzieren.
+
+	\section{Einstellungen}
+
+	\subsection{Funktionen der Spindel}
+	\begin{itemize}
+		\item Drehzahl: Am Stellrad der Spindel~\teil{4} wird die Drehzahl in sechs Stufen eingestellt, von etwa 10.000 (Stufe 1) bis 26.000 Umdrehungen pro Minute (Stufe 6). Welche Stufe passt, steht in Abschnitt~\ref{sec:drehzahl}.
+		\item Gleichbleibende Drehzahl: Die Elektronik hält die eingestellte Drehzahl auch unter Last.
+		\item Überlastschutz: Wird die Spindel zu stark belastet oder zu heiß, nimmt die Elektronik die Leistung zurück, damit der Motor abkühlen kann. Dann weniger tief fräsen oder langsamer schieben.
+		\item Die Software lässt den Fräser nur auf dem Fräsweg eintauchen und gibt die Fräsrichtung vor (Abschnitt~\ref{sec:gegenlauf}). Den Anweisungen am Bildschirm folgen.
+	\end{itemize}
+
+	\subsection{Fräser wechseln}
+	\label{sec:fraeserwechsel}
+	Fräser nur wechseln, wenn die Spindel \textbf{ausgeschaltet und vom Origin abgesteckt} ist. Dabei Schutzhandschuhe tragen: Fräser sind scharf und nach dem Fräsen heiß. Vor dem Fräsen die Handschuhe wieder ausziehen.
+
+	\begin{enumerate}
+		\item Spindel ausschalten und ihren Stecker am Origin abziehen.
+		\item Klemmschraube der Spindelhalterung~\teil{5} mit dem T-Griff-Schlüssel lösen und die Spindel nach oben herausziehen.
+		\item Spindelarretierung drücken und gedrückt halten, die Spannmutter mit dem 19er-Schlüssel aus der Maschinenkiste gegen den Uhrzeigersinn lösen und den alten Fräser herausziehen.
+		\item Den neuen Fräser weit genug in die Spannzange stecken, mindestens bis zur Markierung am Schaft bzw.\ bis die Schneiden knapp vor der Spannmutter stehen.
+		\item Spindelarretierung drücken und die Spannmutter fest anziehen.
+		\item Spindel wieder bis zum Anschlag in die Halterung setzen, Klemmschraube festziehen und den Stecker einstecken.
+		\item Am Bildschirm den neuen Fräserdurchmesser eingeben und \textbf{Z-Touch} ausführen (Abschnitt~\ref{sec:ztouch}).
+	\end{enumerate}
+
+	\begin{itemize}
+		\item Die Spannmutter nie ohne eingesteckten Fräser festziehen, das beschädigt die Spannzange.
+		\item Es ist die Spannzange für $8\,\mathrm{mm}$ Schaft eingesetzt. Andere Spannzangen nur nach Rücksprache mit einem Betreuer verwenden.
+		\item Der eingegebene Durchmesser muss genau zum Fräser passen, sonst stimmen die Maße des Werkstücks nicht.
+	\end{itemize}
+
+	\subsection{Z-Touch und Frästiefe}
+	\label{sec:ztouch}
+	Beim \textbf{Z-Touch} senkt der Origin den Fräser langsam ab, bis er die Oberfläche berührt. Diese Höhe ist die Tiefe 0, von hier aus wird jede Frästiefe gerechnet. Z-Touch ist nötig nach jedem Fräserwechsel und immer, wenn auf einer anderen Oberfläche gefräst wird. Den Origin dabei flach auf das Werkstück stellen, ruhig halten und nicht nach unten drücken.
+
+	\begin{center}
+		\input{zeichnungen/fraestiefe}
+	\end{center}
+
+	\begin{itemize}
+		\item Tiefe Schnitte immer in \textbf{mehreren Durchgängen} fräsen. Je Durchgang höchstens halb so tief wie der Fräserdurchmesser, bei Hartholz, Kunststoff und kleinen Fräsern weniger. Nach jedem Durchgang die Tiefe am Bildschirm erhöhen und denselben Weg noch einmal fräsen.
+		\item \textbf{Durchfräsen:} Die letzte Tiefe ist die Materialstärke plus etwa 0,5\,mm. So wird sicher durchgetrennt, ohne tief in die Opferplatte zu fräsen. Die Materialstärke vorher mit dem Messschieber messen.
+		\item Die Tiefe an einem Reststück ausprobieren und nachmessen.
+	\end{itemize}
+
+	\subsection{Drehzahl wählen}
+	\label{sec:drehzahl}
+	Die passende Stufe am Stellrad der Spindel~\teil{4} hängt vom Material und vom Fräser ab. Faustregel: Je größer der Fräser, desto niedriger die Stufe. Kunststoff und Aluminium werden langsamer gefräst als Holz.
+
+	\begin{itemize}
+		\item Drehzahl zu hoch oder Vorschub zu langsam: Brandspuren, Kunststoff schmilzt, der Fräser überhitzt und wird schnell stumpf.
+		\item Drehzahl zu niedrig: ausgefranste Kanten, die Maschine rattert.
+		\item Nie höher als die auf dem Fräser angegebene Höchstdrehzahl.
+	\end{itemize}
+
+	\begin{center}
+		\small
+		\renewcommand{\arraystretch}{1.3}
+		\begin{tabularx}{0.8\textwidth}{|X|c|l|}
+			\hline
+			\textbf{Material} & \textbf{Stufe} & \textbf{Schneide} \\ \hline
+			Hartholz & 4--6 & HW (HSS) \\ \hline
+			Weichholz & 5--6 & HSS (HW) \\ \hline
+			Spanplatte, beschichtet & 5--6 & HW \\ \hline
+			Kunststoff & 4--6 & HW \\ \hline
+			Aluminium & 1--3 & HSS (HW) \\ \hline
+		\end{tabularx}
+	\end{center}
+
+	{\footnotesize Richtwerte für Fräser bis etwa 14\,mm Durchmesser, wie für Oberfräsen üblich (siehe auch \href{https://github.com/fau-fablab/festool-oberfraese-einweisung}{Einweisung Oberfräse}). HW = Hartmetall, HSS = Schnellarbeitsstahl, in Klammern: ebenfalls geeignet. Im Zweifel mit der niedrigeren Stufe anfangen und an einem Reststück ausprobieren.}
+
+	\section{Fräsen}
+
+	\subsection{Entwurf erstellen oder laden}
+	Was gefräst wird, legt der \textbf{Entwurf} fest:
+	\begin{itemize}
+		\item Einfache Formen wie Kreise, Rechtecke und Linien lassen sich direkt am Origin zeichnen.
+		\item Eigene Zeichnungen als \textbf{SVG-Datei} erstellen, z.\,B.\ mit Inkscape, FreeCAD oder Fusion 360. Die Einheiten in der Datei prüfen, damit die Maße stimmen. Die Datei per USB-Stick oder über das Online-Konto (Shaper Hub) auf den Origin laden.
+		\item Den Entwurf am Bildschirm auf dem gescannten Werkstück platzieren und ausrichten. Dazu den Origin über das Werkstück bewegen: Der Entwurf wird an der Stelle abgelegt, die der Bildschirm zeigt.
+	\end{itemize}
+
+	\subsection{Schnittart und Offset}
+	Die \textbf{Schnittart} legt fest, wo der Fräser im Verhältnis zur Linie des Entwurfs fräst:
+
+	\begin{center}
+		\input{zeichnungen/schnittarten}
+	\end{center}
+
+	\begin{itemize}
+		\item \textbf{Außen:} Der Fräser läuft außerhalb der Linie. Für Teile, die genau das Maß der Zeichnung haben sollen.
+		\item \textbf{Innen:} Der Fräser läuft innerhalb der Linie. Für Löcher und Ausschnitte mit dem Maß der Zeichnung.
+		\item \textbf{Auf Linie:} Die Mitte des Fräsers läuft auf der Linie. Für Gravuren und Nuten.
+		\item \textbf{Tasche:} Die ganze Fläche innerhalb der Linie wird ausgeräumt. Der Origin hält dabei automatisch etwas Abstand zur Linie. Zum Schluss die Kante mit der Schnittart \textit{Innen} sauber nachfräsen.
+	\end{itemize}
+
+	Mit dem \textbf{Offset} wird der Fräsweg um einen festen Betrag nach außen oder innen verschoben, z.\,B.\ um erst mit etwas Aufmaß zu fräsen und danach im letzten Durchgang genau auf Maß.
+
+	\subsection{Ein Fräsvorgang Schritt für Schritt}
+	\begin{enumerate}
+		\item Checkliste vor dem Fräsen durchgehen.
+		\item Opferplatte spannen, Werkstück und alle Teile festkleben.
+		\item ShaperTape kleben und scannen.
+		\item Fräser einsetzen, Durchmesser eingeben, Z-Touch ausführen, Drehzahl einstellen.
+		\item Entwurf laden und platzieren, Schnittart, Offset und Tiefe des ersten Durchgangs einstellen.
+		\item Absaugung anschließen, Sauger auf \enquote{AUTO}, Schutzausrüstung anlegen.
+		\item Origin flach auf das Werkstück setzen, beide Hände an die Griffe, Spindel einschalten.
+		\item Origin an den Anfang des Fräswegs schieben und mit der \taste{tastegruen}{grünen Taste} eintauchen.
+		\item Gleichmäßig in Pfeilrichtung schieben und dabei den Kreis am Bildschirm auf der Linie halten (Abschnitt~\ref{sec:bildschirm}).
+		\item Am Ende mit der \taste{tasteorange}{orangen Taste} hochfahren. Für den nächsten Durchgang die Tiefe erhöhen und wiederholen.
+		\item Nach dem letzten Durchgang hochfahren, Spindel ausschalten, warten, bis der Fräser steht, dann den Origin abheben.
+	\end{enumerate}
+
+	\subsection{Der Bildschirm beim Fräsen}
+	\label{sec:bildschirm}
+	Beim Fräsen zeigt der Bildschirm das Kamerabild mit dem Fräsweg. Ein \textbf{Kreis} zeigt den Bereich, in dem der Origin den Fräser selbst verschieben kann. Solange die Linie durch den Kreis läuft, hält der Origin den Fräser genau auf dem Weg. Bereits gefräste Abschnitte werden markiert.
+
+	\begin{center}
+		\input{zeichnungen/bildschirm}
+	\end{center}
+
+	\begin{itemize}
+		\item Gleichmäßig schieben, nicht ruckartig. Zu schnell: Der Kreis verlässt die Linie und der Fräser fährt hoch. Zu langsam: Brandspuren.
+		\item Hat sich der Fräser zurückgezogen: Den Origin zurück auf die Linie führen, an einer schon gefrästen Stelle wieder eintauchen und weitermachen.
+		\item Im \textbf{Auto-Modus} fährt der Origin den Fräser innerhalb des Kreises selbst die Linie entlang, du führst die Maschine nur hinterher. Das ergibt einen gleichmäßigen Vorschub und saubere Kanten.
+		\item Wenn möglich den Origin beim Fräsen in derselben Richtung halten wie beim Scannen, so sieht die Kamera am meisten Tape.
+	\end{itemize}
+
+	\subsection{Fräsrichtung}
+	\label{sec:gegenlauf}
+	Der Fräser dreht sich, von oben gesehen, \textbf{im Uhrzeigersinn}. Gefräst wird im \textbf{Gegenlauf}: Der Fräser drückt die Maschine leicht zurück, du schiebst gegen einen gleichmäßigen Widerstand und hast sie unter Kontrolle. Im Gleichlauf zieht der Fräser die Maschine nach vorn, sie kann wegspringen.
+
+	Der Origin zeigt die richtige Richtung am Bildschirm mit Pfeilen an. Dieser Richtung folgen und, falls die Software eine Einstellung für Gleichlauf (\textit{climb}) anbietet, diese nicht verwenden.
+
+	\begin{center}
+		\input{zeichnungen/gegenlauf}
+	\end{center}
+
+	\subsection{Tipps für Holz}
+	\begin{itemize}
+		\item Quer zur Faser gibt es leicht Ausrisse. Sollen alle vier Kanten gefräst werden, zuerst die Hirnholzkanten fräsen, danach die Längskanten. Ausrisse an den Ecken werden beim zweiten Durchgang wieder weggefräst.
+		\item Richtige Drehzahl wählen und den Fräser gleichmäßig bewegen, dann gibt es keine Brandspuren.
+		\item Für saubere Kanten den letzten Durchgang nur wenig tiefer als den vorletzten fräsen oder mit dem Offset einen dünnen Schlichtdurchgang machen.
+		\item Bei Holz kann sich der Absauganschluss durch Splitter zusetzen. Lässt die Absaugung nach, unterbrechen und nachsehen.
+	\end{itemize}
+
+	\subsection{Aluminium und andere Nichteisenmetalle}
+	\label{sec:aluminium}
+	Das Fräsen von Aluminium, Kupfer, Messing und anderen Nichteisenmetallen ist nur \textbf{fortgeschrittenen Benutzern} erlaubt. Beim ersten Mal muss ein Betreuer dabei sein, der selbst schon Nichteisenmetalle mit dem Origin gefräst hat. Zusätzlich gilt:
+	\begin{itemize}
+		\item Nur Fräser verwenden, die für das Metall geeignet sind.
+		\item Sehr geringe Tiefe je Durchgang, niedrige Drehzahl (Tabelle in Abschnitt~\ref{sec:drehzahl}).
+		\item Schutzbrille tragen, die Späne sind heiß und scharfkantig.
+		\item Nach der Arbeit Origin und Spindel gründlich von Spänen befreien. Metallspäne im Motor können einen Kurzschluss verursachen.
+	\end{itemize}
+
+	\subsection{Nicht erlaubt}
+	Folgendes ist im FabLab \textbf{verboten}:
+	\begin{itemize}
+		\item Benutzen des Origin durch nicht eingewiesene Personen.
+		\item Führen der Maschine mit nur einer Hand.
+		\item Fräsen mit Handschuhen.
+		\item Fräsen ohne angeschlossene Absaugung.
+		\item Fräsen von Werkstücken, die nicht befestigt, nur mit der Hand gehalten oder direkt auf die Werkbank geklebt sind, und von Teilen, die sich nicht sicher befestigen lassen.
+		\item Fräsen von Stahl, Stein, Glas und anderen nicht zugelassenen Materialien sowie von Material mit Nägeln, Schrauben oder Klammern im Fräsbereich.
+		\item Verwenden stumpfer, beschädigter oder ungeeigneter Fräser.
+		\item Fräserwechsel bei eingesteckter Spindel.
+	\end{itemize}
+
+	\subsection{Arbeiten während OpenLabs}
+	Ob der Origin während eines OpenLabs genutzt werden kann, entscheiden die anwesenden Betreuer. Das geht nur, wenn wenige Personen anwesend sind, alle in der Nähe Gehörschutz tragen und niemand gestört wird. Während der Vorlesungs- und Prüfungszeit die Labtüren geschlossen halten.
+
+	\section{Nach dem Fräsen}
+
+	\begin{itemize}
+		\item Fräser hochfahren, Spindel ausschalten, Fräser auslaufen lassen, Netzkabel ziehen.
+		\item Werkstück und Teile vorsichtig von der Opferplatte lösen, Klebebandreste entfernen.
+		\item Origin, Spindel und Arbeitsplatz absaugen. Mit Druckluft nur im Freien ausblasen oder die Maschine dabei aus dem Fenster halten. Kamera und Bildschirm nicht anblasen, sondern nur mit einem weichen Tuch abwischen.
+		\item Bei Bedarf Harz mit Harzentferner vom Fräser entfernen.
+		\item Origin, Spindel, Schlüssel, Fräser, ShaperTape und Sauger an ihren Platz zurücklegen.
+		\item Schäden, stumpfe Fräser oder Probleme einem Betreuer melden.
+	\end{itemize}
+
+	\section{Infos für Betreuer}
+
+	\subsection{Typische Fehler}
+	\begin{itemize}
+		\item \textbf{Origin findet seine Position nicht oder meldet zu wenig Tape:} zu wenig oder zu weit auseinander geklebtes ShaperTape, Kamera verschmutzt, starkes Gegenlicht. Tape ergänzen und nachscannen.
+		\item \textbf{Maße stimmen nicht:} falscher Fräserdurchmesser eingegeben, falsche Schnittart oder Einheiten in der SVG-Datei falsch.
+		\item \textbf{Frästiefe stimmt nicht:} Z-Touch nach dem Fräserwechsel vergessen, Fräser in der Spannzange gerutscht oder Spindel nicht bis zum Anschlag in der Halterung.
+		\item \textbf{Fräser fährt ständig hoch:} zu schnell oder ruckartig geschoben, Linie verlässt den Kreis.
+		\item \textbf{Brandspuren oder geschmolzener Kunststoff:} Drehzahl zu hoch, zu langsam geschoben, zu tief je Durchgang oder Fräser stumpf.
+		\item \textbf{Teile verrutschen oder fliegen weg:} Opferplatte nicht gespannt oder Teile nicht festgeklebt.
+		\item \textbf{Absaugung schwach:} Absauganschluss verstopft, Sauger voll oder Filter zugesetzt.
+	\end{itemize}
+
+	\subsection{Pflege und Prüfung}
+	\begin{itemize}
+		\item Origin, Spindel und Motorlüftung regelmäßig von Staub reinigen, nach Metall besonders gründlich.
+		\item Kamerafenster sauber halten.
+		\item Spannzange und Spannmutter sauber halten, Harz und Staub entfernen.
+		\item Kabel, Spannzange und Fräser regelmäßig prüfen. Stumpfe oder beschädigte Fräser aussortieren.
+		\item Vorrat an ShaperTape und doppelseitigem Klebeband prüfen, Opferplatten bei Bedarf ersetzen.
+		\item Software-Updates nur durch Betreuer.
+		\item Elektrische Prüfung nach DGUV Vorschrift 3 gemäß Prüffrist.
+	\end{itemize}
+
+	\section{Quellen}
+	Die Formulierungen und Zeichnungen dieser Einweisung sind eigenständig erstellt. Die Zeichnungen sind mit TikZ gezeichnet und zeigen den Origin schematisch. Die Zeichnungen zur Fräsrichtung und der Stil der Abbildungen stammen aus der \href{https://github.com/fau-fablab/festool-oberfraese-einweisung}{Einweisung Oberfräse} des FAU FabLab (CC BY-SA 3.0). Sachliche Angaben (technische Daten, Drehzahl-Richtwerte, Sicherheitsregeln) beruhen auf den Angaben der Hersteller und allgemein bekannten Regeln. Maßgeblich sind die Anleitungen von Shaper Tools (Links siehe oben). Shaper Tools hat dieses Dokument weder geprüft noch übernimmt es dafür eine Haftung.
+
+	\ccLicense{shaper-origin-einweisung}{Einweisung Shaper Origin}
 
 \end{document}

@@ -1,0 +1,35 @@
+% =====================================================================
+%  ShaperTape auslegen (Draufsicht, schematisch). Die Kamera muss
+%  immer mehrere Streifen gleichzeitig sehen. Selbst gezeichnet.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+
+  % Blickfeld der Kamera als Rechteck: \blickfeld{x}{y}
+  \newcommand{\blickfeld}[2]{%
+    \fill[entwurf, opacity=0.13] (#1,#2) rectangle ++(34,30);
+    \draw[entwurf, dashed, line width=0.6pt] (#1,#2) rectangle ++(34,30);
+    \node[entwurf, anchor=north west, font=\tiny] at (#1+0.5,#2-0.3) {Blickfeld der Kamera};}
+
+  % ---------------- 1 richtig --------------------------------------
+  \feld{0}{0}{82}{66}{1\quad Richtig}
+  \draw[werkstueck] (5,10) rectangle (77,56);
+  \foreach \y in {48,38,28,18}{\shapertape{9}{\y}{6}}
+  \blickfeld{40}{16}
+  \draw[mass] (7,39.6) -- (7,49.6);
+  \node[anchor=west, fill=holz, inner sep=0.6pt] at (9,44.6) {5--8\,cm};
+  \pic at (73,61) {ok};
+  \node[align=center] at (41,5) {Streifen parallel, 5--8\,cm Abstand,\\mindestens 3 Streifen im Blickfeld};
+
+  % ---------------- 2 falsch ---------------------------------------
+  \feld{88}{0}{82}{66}{2\quad Falsch}
+  \draw[werkstueck] (93,10) rectangle (165,56);
+  \shapertape{97}{48}{6}
+  % schräger und überlappender Streifen
+  \begin{scope}[rotate around={-12:(97,30)}]
+    \shapertape{97}{30}{4}
+  \end{scope}
+  \shapertape{131}{27}{3}
+  \blickfeld{128}{16}
+  \pic at (161,61) {nok};
+  \node[align=center] at (129,5) {zu große Lücken, Streifen schräg\\oder überlappend, zu wenig im Blickfeld};
+\end{tikzpicture}

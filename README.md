@@ -6,9 +6,12 @@ Einweisung des [FAU FabLab](https://fablab.fau.de) in die handgeführte CNC-Frä
 Inhalt
 ------
 
-- Technische Daten, allgemeine Sicherheitshinweise, Schutzausrüstung
-- Vor der ersten Benutzung, bestimmungsgemäße Verwendung, Arbeiten während Openlabs
-- Frästiefe, Drehzahl, Festspannen, Tipps für Holz und Nichteisenmetalle
+- Regeln und Sicherheit, Betriebsanweisung BA-SO-01 (Aushang beim Origin, noch Entwurf)
+- So funktioniert der Origin, Bedienelemente (schematische Zeichnung), Anleitung des Herstellers
+- Vorbereitung: Checkliste, Schutzausrüstung, Material, Absaugung, Werkstück befestigen, ShaperTape kleben und scannen
+- Einstellungen: Fräser wechseln, Z-Touch und Frästiefe, Drehzahl
+- Fräsen: Entwurf, Schnittarten und Offset, Ablauf Schritt für Schritt, Bildschirm, Fräsrichtung, Holz, Nichteisenmetalle, Verbotsliste, OpenLabs
+- Nach dem Fräsen, Infos für Betreuer: typische Fehler, Pflege und Prüfung
 
 Download
 --------
@@ -17,6 +20,9 @@ Die neueste Version aus [GitHub](https://github.com/fau-fablab/shaper-origin-ein
 
 - [Einweisung](https://brain.fablab.fau.de/build/shaper-origin-einweisung/einweisung_shaper_origin.pdf)
 - [Einweisungsliste](https://brain.fablab.fau.de/build/shaper-origin-einweisung/einweisungsliste_shaper_origin.pdf)
+
+Die Betriebsanweisung (`Betriebsanweisung_Shaper_Origin.tex`) ist standardmäßig aus. Zum Einschalten im `Makefile` die Zeile
+`TARGET += Betriebsanweisung_Shaper_Origin` einkommentieren, dann wird sie als eigenes PDF und als Seite in der Einweisung gebaut.
 
 Außerdem baut eine GitHub Action die PDFs bei jedem Push. Auf dem Hauptbranch entsteht dabei ein
 [Release](https://github.com/fau-fablab/shaper-origin-einweisung/releases) mit Datums-Version (`vJJJJ.MM.TT`) und den PDFs.
@@ -44,4 +50,17 @@ Technische Details zum Buildserver: [fau-fablab/buildserver](https://github.com/
 Lizenz
 ------
 
-**Noch ungeklärt:** Die Einweisung enthält Inhalte von Shapertools und aus der Festool-Einweisung.
+[![Lizenz: CC BY-SA 3.0](https://licensebuttons.net/l/by-sa/3.0/de/88x31.png)</br>CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+
+Die Einweisung und die Betriebsanweisung (`betriebsanweisung/ba_shaper_origin.tex`, BA-SO-01) sind selbst
+formuliert und enthalten keine Texte, Tabellen oder Abbildungen aus den Anleitungen von Shaper Tools oder
+Festool. Die frühere Drehzahltabelle aus der Festool-Anleitung (`img/drehzahltabelle.pdf`) wurde durch eine
+eigene Tabelle mit Richtwerten ersetzt. Alle Zeichnungen in `zeichnungen/` sind selbst mit TikZ erstellt;
+Stil und Zeichnung zur Fräsrichtung stammen aus der
+[Einweisung Oberfräse](https://github.com/fau-fablab/festool-oberfraese-einweisung) (ebenfalls CC BY-SA 3.0).
+Symbole nur nach ISO 7010 aus `fablab-document`.
+
+Für Details wird auf die Anleitungen von Shaper Tools verwiesen. **Beim Bearbeiten nichts aus den
+Herstelleranleitungen übernehmen, auch nicht sinngemäß Satz für Satz.** Bilder bitte selbst zeichnen oder
+fotografieren. Fotos aus dem Internet nur mit freier Lizenz (z.B. CC BY oder CC BY-SA) und mit Quellenangabe
+in einer Datei `bilder/QUELLEN.md`.

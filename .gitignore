@@ -2,8 +2,10 @@
 output/
 revision.tex
 version.tex
+ba-aktiv.tex
 einweisung_*.pdf
 einweisungsliste_*.pdf
+Betriebsanweisung_*.pdf
 
 ##file explorer files
 .directory

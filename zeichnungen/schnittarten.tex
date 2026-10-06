@@ -1,0 +1,51 @@
+% =====================================================================
+%  Schnittarten des Origin (Draufsicht). Gestrichelt: Linie des
+%  Entwurfs, grau: Fräser, dunkel: abgetragenes Material.
+%  Selbst gezeichnet.
+% =====================================================================
+\begin{tikzpicture}[x=1mm, y=1mm, font=\scriptsize]
+
+  % Fräser von oben: \fraeseroben{x}{y}
+  \newcommand{\fraeseroben}[2]{%
+    \fill[black!55, opacity=0.85] (#1,#2) circle (2.5);
+    \fill[white] (#1,#2) circle (0.5);}
+
+  % Werkstück und Entwurf (Quadrat 20 x 20, Mitte (cx, 26)): \grund{cx}
+  \newcommand{\grund}[1]{%
+    \draw[werkstueck] (#1-17,9) rectangle (#1+17,43);}
+  \newcommand{\entwurfquadrat}[1]{%
+    \draw[entwurfslinie] (#1-10,16) rectangle (#1+10,36);}
+
+  % ---------------- 1 Außen ----------------------------------------
+  \feld{0}{0}{40}{58}{1\quad Außen}
+  \grund{20}
+  \fill[nut, even odd rule] (5,11) rectangle (35,41) (10,16) rectangle (30,36);
+  \entwurfquadrat{20}
+  \fraeseroben{32.5}{26}
+  \node[align=center] at (20,4.5) {Fräser außerhalb:\\Teil hat das Maß};
+
+  % ---------------- 2 Innen ----------------------------------------
+  \feld{43.33}{0}{40}{58}{2\quad Innen}
+  \grund{63.33}
+  \fill[nut, even odd rule] (53.33,16) rectangle (73.33,36) (58.33,21) rectangle (68.33,31);
+  \entwurfquadrat{63.33}
+  \fraeseroben{70.83}{26}
+  \node[align=center] at (63.33,4.5) {Fräser innerhalb:\\Loch hat das Maß};
+
+  % ---------------- 3 Auf Linie ------------------------------------
+  \feld{86.67}{0}{40}{58}{3\quad Auf Linie}
+  \grund{106.67}
+  \fill[nut, even odd rule] (94.17,13.5) rectangle (119.17,38.5) (99.17,18.5) rectangle (114.17,33.5);
+  \entwurfquadrat{106.67}
+  \fraeseroben{116.67}{26}
+  \node[align=center] at (106.67,4.5) {Fräsermitte auf der Linie:\\Gravieren, Nuten};
+
+  % ---------------- 4 Tasche ---------------------------------------
+  \feld{130}{0}{40}{58}{4\quad Tasche}
+  \grund{150}
+  \fill[nut] (140.6,16.6) rectangle (159.4,35.4);
+  \foreach \y in {19.5,23.5,...,33}{\draw[black!35, line width=0.3pt] (142.5,\y) -- (157.5,\y);}
+  \entwurfquadrat{150}
+  \fraeseroben{150}{27.5}
+  \node[align=center] at (150,4.5) {Fläche ausräumen,\\danach Innen nachfräsen};
+\end{tikzpicture}

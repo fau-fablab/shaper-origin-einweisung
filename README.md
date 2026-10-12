@@ -50,14 +50,14 @@ Technische Details zum Buildserver: [fau-fablab/buildserver](https://github.com/
 Lizenz
 ------
 
-[![Lizenz: CC BY-SA 3.0](https://licensebuttons.net/l/by-sa/3.0/de/88x31.png)</br>CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+[![Lizenz: CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/88x31.png)</br>CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 Die Einweisung und die Betriebsanweisung (`betriebsanweisung/ba_shaper_origin.tex`, BA-SO-01) sind selbst
 formuliert und enthalten keine Texte, Tabellen oder Abbildungen aus den Anleitungen von Shaper Tools oder
 Festool. Die frühere Drehzahltabelle aus der Festool-Anleitung (`img/drehzahltabelle.pdf`) wurde durch eine
 eigene Tabelle mit Richtwerten ersetzt. Alle Zeichnungen in `zeichnungen/` sind selbst mit TikZ erstellt;
 Stil und Zeichnung zur Fräsrichtung stammen aus der
-[Einweisung Oberfräse](https://github.com/fau-fablab/festool-oberfraese-einweisung) (ebenfalls CC BY-SA 3.0).
+[Einweisung Oberfräse](https://github.com/fau-fablab/festool-oberfraese-einweisung) (ebenfalls CC BY-SA 4.0).
 Symbole nur nach ISO 7010 aus `fablab-document`.
 
 Für Details wird auf die Anleitungen von Shaper Tools verwiesen. **Beim Bearbeiten nichts aus den
